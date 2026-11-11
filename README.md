@@ -1,103 +1,57 @@
-**English** | [中文](https://p3terx.com/archives/cloudflare-warp-configuration-script.html)
+# Warptux
 
-# Cloudflare WARP Installer
+**Warptux is a small project for installing and connecting the official Cloudflare WARP client on Linux.**
 
-A Bash script that automatically installs and configures CloudFlare WARP in Linux, connects to WARP networks with WARP official client or WireGuard.
+Please note: This is not an official Cloudflare project, and it does not come with support or guarantee that it will work on every Linux distribution or release.
 
-## Features
+## What it does
 
-- Automatically install CloudFlare WARP Official Linux Client
-- Quickly enable WARP Proxy Mode, access WARP network with SOCKS5
-- Automatically install WireGuard related components
-- Configuration WARP IPv4 Network interface (WireGuard Mode)
-- Configuration WARP IPv6 Network interface (WireGuard Mode)
-- Configuration WARP Dual Stack Network interface (WireGuard Mode)
-- ...
+The Bash script:
 
-## Requirements
+1. Identifies the Linux distribution and package family.
+2. Adds Cloudflare’s official package repository and installs the WARP client.
+3. Starts the WARP service.
+4. Registers the device if it does not appear to be registered.
+5. Connects to WARP and checks that the connection is working.
 
-### WARP Official Linux Client
+The installer is intended for Ubuntu and Ubuntu-based distributions, Debian, Fedora, RHEL, and CentOS. Support for derivatives depends on whether the system identifies its base distribution and release in a way the script can use. Cloudflare’s repository may not provide packages for every release or architecture.
 
-Official WARP client support is currently limited to x86_64 platforms, see OS Support for details: https://pkg.cloudflareclient.com
+## What it does not do
 
-### WARP WireGuard Network Mode
+This project is deliberately limited in scope. It does **not** install or configure WireGuard directly, manage custom routing rules, configure SOCKS proxies, or enroll a device into a Cloudflare Zero Trust organization. It is intended for the standard consumer WARP client.
 
-Supported distributions:
+## Before you run it
 
-- Debian >= 10
-- Ubuntu >= 16.04
-- Fedora
-- CentOS
-- Oracle Linux
-- Arch Linux
-- Other similar distributions
+The installer requires:
 
-Supported platform architecture:
+- A supported Linux distribution using `APT` or `DNF/YUM`.
+- `systemd`.
+- Root privileges.
+- An internet connection to reach your distribution’s package repositories and Cloudflare’s package repository.
 
-- x86(i386)
-- x86_64(amd64)
-- ARMv8(aarch64)
-- ARMv7(armhf)
+**The script connects WARP when installation finishes.** This changes how the device’s internet traffic is routed. Review the script before running it, especially on a remote server or a machine with existing VPN, firewall, or network-routing configuration.
 
 ## Usage
 
+Clone or download this repository, review `warp.sh`, then run:
+
 ```bash
-bash <(curl -fsSL git.io/warp.sh) [SUBCOMMAND]
-# or
-wget git.io/warp.sh
-bash warp.sh [SUBCOMMAND]
+sudo bash ./warp.sh
 ```
 
-### Subcommands
-
+To display the script’s usage information:
+```bash 
+sudo bash ./warp.sh --help
 ```
-install         Install Cloudflare WARP Official Linux Client
-uninstall       uninstall Cloudflare WARP Official Linux Client
-restart         Restart Cloudflare WARP Official Linux Client
-proxy           Enable WARP Client Proxy Mode (default SOCKS5 port: 40000)
-unproxy         Disable WARP Client Proxy Mode
-wg              Install WireGuard and related components
-wg4             Configuration WARP IPv4 Global Network (with WireGuard), all IPv4 outbound data over the WARP network
-wg6             Configuration WARP IPv6 Global Network (with WireGuard), all IPv6 outbound data over the WARP network
-wgd             Configuration WARP Dual Stack Global Network (with WireGuard), all outbound data over the WARP network
-wgx             Configuration WARP Non-Global Network (with WireGuard), set fwmark or interface IP Address to use the WARP network
-rwg             Restart WARP WireGuard service
-dwg             Disable WARP WireGuard service
-status          Prints status information
-version         Prints version information
-help            Prints this message or the help of the given subcommand(s)
-menu            Chinese special features menu
+ 
+Afterward, you can check the client status with:
+```bash 
+sudo warp-cli status
 ```
+For other client-management commands, refer to Cloudflare’s Linux WARP documentation.
 
-### Example
-
-- Install and automatically configure the Proxy Mode feature of the WARP client, enable the local loopback port 40000, and use an application that supports SOCKS5 to connect to this port.
-    ```
-    bash <(curl -fsSL git.io/warp.sh) proxy
-    ```
-
-- Install and automatically configure WARP IPv6 Network (with WireGuard)，Giving your Linux server access to IPv6 networks.
-    ```
-    bash <(curl -fsSL git.io/warp.sh) wg6
-    ```
-
-- This Bash script is also a good WireGuard installer.
-    ```
-    bash <(curl -fsSL git.io/warp.sh) wg
-    ```
-
-## Credits
-
-- [Cloudflare WARP](https://1.1.1.1/)
-- [WireGuard](https://www.wireguard.com/)
-- [ViRb3/wgcf](https://github.com/ViRb3/wgcf)
-
-## License
-
-[MIT](https://github.com/P3TERX/warp.sh/blob/main/LICENSE) © **[P3TERX](https://p3terx.com/)**
-
-## Notice of Non-Affiliation and Disclaimer
-
-We are not affiliated, associated, authorized, endorsed by, or in any way officially connected with Cloudflare, or any of its subsidiaries or its affiliates. The official Cloudflare website can be found at https://www.cloudflare.com/.
-
-The names Cloudflare Warp and Cloudflare as well as related names, marks, emblems and images are registered trademarks of their respective owners.
+---
+## Open source and contributions
+The installer script is distributed under the GPL License. The license applies to this project’s code; Cloudflare’s WARP client, service, and infrastructure remain subject to their own terms and licenses. This is a small project. Suggestions are welcome. Please include your distribution name and version, relevant error output, and the command you ran when reporting an issue. Do not include private keys, account credentials, or other secrets.
+## Disclaimer
+Use this project at your own risk. It modifies system package sources, installs software, starts a system service, and connects a VPN-like network client. The project is provided “as is,” without warranties or guarantees of support. Warptux is not affiliated with, authorized by, or endorsed by Cloudflare. Cloudflare and WARP are trademarks of their respective owners.
