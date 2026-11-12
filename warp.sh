@@ -7,11 +7,6 @@ readonly WARP_REPO_URL="https://pkg.cloudflareclient.com/cloudflare-warp-ascii.r
 
 tmp_file=""
 
-cleanup() {
-    if [[ -n "$tmp_file" ]]; then
-        rm -f "$tmp_file"
-    fi
-}
 trap cleanup EXIT
 
 die() {
