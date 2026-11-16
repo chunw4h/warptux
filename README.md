@@ -1,8 +1,8 @@
-# Warptux
+# 💫Warptux🐧
 
 ![Image handcrafted by me!](assets/1-tuxwarp-logo.png)
 
-**Warptux is a small project for installing and connecting the official Cloudflare WARP client on Linux.**
+**💫Warptux🐧 is a small project for installing and connecting the official Cloudflare WARP client on Linux.**
 
 Please note: This is not an official Cloudflare project, and it does not come with support or guarantee that it will work on every Linux distribution or release.
 
@@ -50,7 +50,7 @@ Afterward, you can check the client status with:
 ```bash 
 sudo warp-cli status
 ```
-For other client-management commands, refer to [Cloudflare’s Linux WARP documentation](https://developers.cloudflare.com/cloudflare-one/team-and-resources/devices/cloudflare-one-client/download/#linux:~:text=Linux).
+For other client-management commands, refer to [Cloudflare’s Linux WARP documentation](https://developers.cloudflare.com/warp-client/get-started/linux/#:~:text=Linux,-Last).
 
 ---
 ## Open source and contributions
